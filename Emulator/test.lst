@@ -1,0 +1,123 @@
+ AS V1.42 Beta [Bld 102] - source file test.asm - page 1 - 9/22/2016 16:36:05
+
+
+       1/       0 :                     
+       2/       0 :                     	cpu 	1802
+       3/       0 :                     	
+       4/       0 : =0H                 r0 = 0
+       5/       0 : =1H                 r1 = 1
+       6/       0 : =2H                 r2 = 2
+       7/       0 : =3H                 r3 = 3
+       8/       0 : =4H                 r4 = 4
+       9/       0 : =5H                 r5 = 5
+      10/       0 : =6H                 r6 = 6
+      11/       0 : =CH                 rc = 12
+      12/       0 : =EH                 re = 14
+      13/       0 : =FH                 rf = 15
+      14/       0 :                     
+      15/       0 : =800H               screen = 0800h
+      16/       0 :                     
+      17/       0 : F8 29               	ldi 	41
+      18/       2 : 90                  	ghi 	r0
+      19/       3 : B3                  	phi 	r3
+      20/       4 : F8 08               	ldi 	start & 255
+      21/       6 : A3                  	plo 	r3
+      22/       7 : D3                  	sep 	r3
+      23/       8 :                     start:
+      24/       8 :                     
+      25/       8 : F8 09               	ldi 	9 																; set stack to 9FFh
+      26/       A : B2                  	phi 	r2
+      27/       B : F8 FF               	ldi 	0FFh
+      28/       D : A2                  	plo 	r2
+      29/       E :                     
+      30/       E : F8 08               	ldi 	screen/256														; R0 points to screen
+      31/      10 : B0                  	phi 	r0
+      32/      11 : F8 00               	ldi 	0
+      33/      13 : A0                  	plo 	r0
+      34/      14 : B1                  	phi 	r1 																; set interrupt
+      35/      15 : F8 2E               	ldi 	interruptRoutine & 255
+      36/      17 : A1                  	plo 	r1
+      37/      18 :                     
+      38/      18 : E3                  	sex 	r3 																; X = P = 3
+      39/      19 : 61                  	out 	1
+      40/      1A : 02                  	db 		2 																; select device 2
+      41/      1B : 62                  	out 	2
+      42/      1C : 03                  	db 	 	3 																; command 3 (TV on)
+      43/      1D :                     
+      44/      1D : F8 08               	ldi 	screen/256
+      45/      1F : B4                  	phi		r4
+      46/      20 : F8 00               	ldi 	0
+      47/      22 : A4                  	plo 	r4
+      48/      23 :                     fill:
+      49/      23 : F8 FF               	ldi 	255
+      50/      25 : 54                  	str 	r4
+      51/      26 : 14                  	inc 	r4
+      52/      27 : 84                  	glo 	r4
+      53/      28 : 3A 23               	bnz 	fill
+      54/      2A :                     wait:
+      55/      2A : 30 2A               	br 		wait
+      56/      2C :                     
+      57/      2C :                     interruptExit:
+      58/      2C : 42                  	lda 	r2 																; restore D and return.
+      59/      2D : 70                  	ret 
+      60/      2E :                     interruptRoutine:
+ AS V1.42 Beta [Bld 102] - source file test.asm - page 2 - 9/22/2016 16:36:05
+
+
+      61/      2E : 22                  	dec 	r2 																; save XP on stack
+      62/      2F : 78                  	sav 
+      63/      30 : 22                  	dec 	r2 																; save D on stack.
+      64/      31 : 52                  	str 	r2
+      65/      32 : F8 08               	ldi 	screen/256														; reset screen address
+      66/      34 : B0                  	phi 	r0
+      67/      35 : F8 00               	ldi 	0
+      68/      37 : A0                  	plo 	r0
+      69/      38 : 30 2C               	br 		interruptExit
+      70/      3A :                     
+ AS V1.42 Beta [Bld 102] - source file test.asm - page 3 - 9/22/2016 16:36:05
+
+
+  symbol table (* = unused):
+  ------------------------
+
+*ARCHITECTURE :  i386-unknown-win32 - | *BIGENDIAN :                      0 - |
+*BRANCHEXT :                      0 - | *CASESENSITIVE :                  0 - |
+*CONSTPI :        3.141592653589793 - | *DATE :                   9/22/2016 - |
+*FALSE :                          0 - |  FILL :                          23 C |
+*FULLPMMU :                       1 - | *HAS64 :                          1 - |
+*HASDSP :                         0 - | *HASFPU :                         0 - |
+*HASPMMU :                        0 - | *INEXTMODE :                      0 - |
+*INLWORDMODE :                    0 - | *INMAXMODE :                      0 - |
+*INSRCMODE :                      0 - | *INSUPMODE :                      0 - |
+ INTERRUPTEXIT :                 2C C |  INTERRUPTROUTINE :              2E C |
+*LISTON :                         1 - | *MACEXP :                         1 - |
+*MOMCPU :                      1802 - | *MOMCPUNAME :                  1802 - |
+*NESTMAX :                      100 - | *PACKING :                        0 - |
+*PADDING :                        1 - |  R0 :                             0 - |
+ R1 :                             1 - |  R2 :                             2 - |
+ R3 :                             3 - |  R4 :                             4 - |
+*R5 :                             5 - | *R6 :                             6 - |
+*RC :                             C - | *RE :                             E - |
+*RELAXED :                        0 - | *RF :                             F - |
+ SCREEN :                       800 - |  START :                          8 C |
+*TIME :                    16:36:05 - | *TRUE :                           1 - |
+*VERSION :                     142F - |  WAIT :                          2A C |
+
+     44 symbols
+     33 unused symbols
+
+ AS V1.42 Beta [Bld 102] - source file test.asm - page 4 - 9/22/2016 16:36:05
+
+
+  codepages:
+  ----------
+
+STANDARD (0 changed characters)
+
+
+0.01 seconds assembly time
+
+     70 lines source file
+      2 passes
+      0 errors
+      0 warnings
